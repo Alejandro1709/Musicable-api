@@ -1,12 +1,14 @@
 import express from 'express';
-import { PORT, NODE_ENV } from './config/index.js';
 import morgan from 'morgan';
+import cors from 'cors';
 import albumRoutes from './routes/album.routes.js';
+import { PORT, NODE_ENV } from './config/index.js';
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 
 if (NODE_ENV === 'development') {
   app.use(morgan('dev'));
