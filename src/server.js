@@ -1,10 +1,16 @@
 import express from 'express';
+import morgan from 'morgan';
+import { PORT, NODE_ENV } from './config/index.js';
 import albums from './data/albums.js';
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+if (NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
 
 app.get('/', (req, res) => {
   res.status(200).send('Hello World!');
@@ -73,6 +79,6 @@ app.delete('/api/v1/albums/:slug', (req, res) => {
   res.status(200).json({ message: 'Album deleted' });
 });
 
-app.listen(2000, () => {
-  console.log('Server listening on port 2000');
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
 });
