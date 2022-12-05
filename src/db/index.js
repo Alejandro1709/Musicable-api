@@ -1,10 +1,18 @@
 import { Pool } from 'pg';
+import {
+  PGDatabase,
+  PGHost,
+  PGPassword,
+  PGPort,
+  PGUser,
+} from '../config/index.js';
 
 const pool = new Pool({
-  host: 'localhost',
-  user: 'alejandrolr',
-  database: 'musicableapi',
-  port: 5432,
+  host: PGHost,
+  user: PGUser,
+  database: PGDatabase,
+  port: PGPort,
+  password: PGPassword,
 });
 
 pool.on('connect', () => {
