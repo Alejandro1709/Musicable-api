@@ -1,4 +1,3 @@
-import albums from '../data/albums.js';
 import db from '../db/index.js';
 import AppError from '../utils/AppError.js';
 import catchAsync from '../utils/catchAsync.js';
@@ -44,33 +43,39 @@ export const createAlbum = catchAsync(async (req, res, next) => {
 });
 
 export const updateAlbum = catchAsync(async (req, res, next) => {
-  const album = albums.find((album) => album.albumSlug === req.params.slug);
+  const { albumTitle, albumCover } = req.body;
+
+  const { rows } = await db.query(
+    'UPDATE albums SET albumTitle = $1, albumCover = $2 WHERE id = $3 RETURNING *;',
+    [albumTitle, albumCover, req.params.id]
+  );
+
+  const album = rows[0];
 
   if (!album) {
-    return res.status(404).send('Album not found');
+    return next(new AppError('No album found with that ID', 404));
   }
 
-  const { albumTitle, albumReleaseDate, albumCover, albumAuthor } = req.body;
-
-  album.albumTitle = albumTitle;
-  album.albumSlug = albumTitle.toLowerCase().replace(/ /g, '-');
-  album.albumReleaseDate = albumReleaseDate;
-  album.albumCover = albumCover;
-  album.albumAuthor = albumAuthor;
-
-  res.status(200).json(album);
+  res.status(200).json({
+    status: 'success',
+    data: {
+      id: album.id,
+      albumTitle,
+      albumCover,
+    },
+  });
 });
 
 export const deleteAlbum = catchAsync(async (req, res, next) => {
-  const album = albums.find((album) => album.albumSlug === req.params.slug);
+  const { rows } = await db.query('DELETE FROM albums WHERE id = $1;', [
+    req.params.id,
+  ]);
+
+  const album = rows[0];
 
   if (!album) {
-    return res.status(404).send('Album not found');
+    return next(new AppError('No album found with that ID', 404));
   }
-
-  const index = albums.indexOf(album);
-
-  albums.splice(index, 1);
 
   res.status(200).json({ message: 'Album deleted' });
 });
