@@ -1,10 +1,11 @@
 import albums from '../data/albums.js';
+import catchAsync from '../utils/catchAsync.js';
 
-export const getAlbums = (req, res) => {
+export const getAlbums = catchAsync(async (req, res) => {
   res.status(200).json(albums);
-};
+});
 
-export const getAlbum = (req, res) => {
+export const getAlbum = catchAsync(async (req, res) => {
   const album = albums.find((album) => album.albumSlug === req.params.slug);
 
   if (!album) {
@@ -12,9 +13,9 @@ export const getAlbum = (req, res) => {
   }
 
   res.status(200).json(album);
-};
+});
 
-export const createAlbum = (req, res) => {
+export const createAlbum = catchAsync(async (req, res) => {
   const { albumTitle, albumReleaseDate, albumCover, albumAuthor } = req.body;
 
   const newAlbum = {
@@ -29,9 +30,9 @@ export const createAlbum = (req, res) => {
   albums.push(newAlbum);
 
   res.status(201).json(newAlbum);
-};
+});
 
-export const updateAlbum = (req, res) => {
+export const updateAlbum = catchAsync(async (req, res) => {
   const album = albums.find((album) => album.albumSlug === req.params.slug);
 
   if (!album) {
@@ -47,9 +48,9 @@ export const updateAlbum = (req, res) => {
   album.albumAuthor = albumAuthor;
 
   res.status(200).json(album);
-};
+});
 
-export const deleteAlbum = (req, res) => {
+export const deleteAlbum = catchAsync(async (req, res) => {
   const album = albums.find((album) => album.albumSlug === req.params.slug);
 
   if (!album) {
@@ -61,4 +62,4 @@ export const deleteAlbum = (req, res) => {
   albums.splice(index, 1);
 
   res.status(200).json({ message: 'Album deleted' });
-};
+});
