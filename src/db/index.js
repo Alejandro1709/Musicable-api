@@ -1,4 +1,4 @@
-import { Pool } from 'pg';
+import pkg from 'pg';
 import {
   PGDatabase,
   PGHost,
@@ -6,6 +6,8 @@ import {
   PGPort,
   PGUser,
 } from '../config/index.js';
+
+const { Pool } = pkg;
 
 const pool = new Pool({
   host: PGHost,
