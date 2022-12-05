@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
   res.status(200).send('Hello World!');
 });
 
-app.all(notFound);
+app.all('*', notFound);
 
 app.use(globalErrorHandler);
 
