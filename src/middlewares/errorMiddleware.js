@@ -1,16 +1,7 @@
 import AppError from '../utils/AppError.js';
 
 export const notFound = (req, res, next) => {
-  // res.status(404).json({
-  //   status: 'Fail',
-  //   message: `Can't find ${req.originalUrl} on this server!`,
-  // });
-
-  const error = new Error(`Can't find ${req.originalUrl} on this server!`);
-  error.status = 'fail';
-  error.statusCode = 404;
-
-  next(error);
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 };
 
 export const globalErrorHandler = (err, req, res, next) => {
