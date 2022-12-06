@@ -11,6 +11,6 @@ const router = Router();
 
 router.route('/').get(getAlbums).post(createAlbum);
 
-router.route('/:slug').get(getAlbum).put(updateAlbum).delete(deleteAlbum);
+router.route('/:albumSlug').get(getAlbum).put(updateAlbum).delete(deleteAlbum);
 
 export default router;
