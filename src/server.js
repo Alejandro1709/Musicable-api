@@ -2,6 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import albumRoutes from './routes/album.routes.js';
+import songRoutes from './routes/song.routes.js';
 import { PORT, NODE_ENV } from './config/index.js';
 import { globalErrorHandler, notFound } from './middlewares/errorMiddleware.js';
 
@@ -16,6 +17,7 @@ if (NODE_ENV === 'development') {
 }
 
 app.use('/api/v1/albums', albumRoutes);
+app.use('/api/v1/songs', songRoutes);
 
 app.get('/', (req, res) => {
   res.status(200).send('Hello World!');
