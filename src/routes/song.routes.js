@@ -5,4 +5,6 @@ const router = Router();
 
 router.route('/').get(getSongs).post(createSong);
 
+router.route('/:songSlug').get(getSong);
+
 export default router;
